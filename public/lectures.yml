@@ -1,9 +1,9 @@
 - id: 1
-  title: 'Lektion 1: Funktionen rufen'
+  title: "Lektion 1: Funktionen rufen"
   explanation: |
     Willkommen zu deinem ersten Programmierabenteuer!
     Dein Ziel ist es, die Figur zur Ziellinie zu bewegen.
     Benutze die Befehle `moveRight()` und `moveDown()`, um die Figur zu bewegen.
   initialCode: |
-    moveRight();
-    moveDown();
+    moveRight()
+    moveDown()
