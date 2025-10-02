@@ -1,0 +1,36 @@
+/* src/styles/markdown.css */
+
+.markdown-body code {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: "Fira code", "Fira Mono", monospace;
+  font-size: 0.9em;
+  color: #c7254e; /* Darker color for better contrast */
+}
+
+.markdown-body pre {
+  background-color: #f5f5f5;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.markdown-body pre code {
+  background-color: transparent; /* Don't double-style code blocks */
+  padding: 0;
+  color: inherit;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  color: #333;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-body p {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
