@@ -7,7 +7,7 @@ import "prismjs/components/prism-javascript"
 import "prismjs/themes/prism.css"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Editor from "react-simple-code-editor"
-import {Level, Position} from "../types/level"
+import {GameState, Level} from "../types/level"
 
 type LectureExerciseProps = {
   level: Level
@@ -18,18 +18,20 @@ function LectureExercise({level}: LectureExerciseProps) {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [currentGameState, setCurrentGameState] = useState<GameState>({
+    position: level.startPosition,
+    color: "blue",
+  })
 
   // Parse the grid once when the component mounts or level changes
   const {grid, startPosition, goalPosition} = level
-
-  const [characterPos, setCharacterPos] = useState(startPosition)
 
   const GRID_SIZE = grid.length
   const CELL_SIZE = 40
   const MOVE_DELAY = 200 // ms
 
   const draw = useCallback(
-    (context: CanvasRenderingContext2D, charPos: Position) => {
+    (context: CanvasRenderingContext2D, gameState: GameState) => {
       context.fillStyle = "#eee"
       context.fillRect(0, 0, context.canvas.width, context.canvas.height)
 
@@ -57,10 +59,10 @@ function LectureExercise({level}: LectureExerciseProps) {
       context.fill()
 
       // Draw character
-      context.fillStyle = "blue"
+      context.fillStyle = gameState.color
       context.fillRect(
-        charPos.x * CELL_SIZE,
-        charPos.y * CELL_SIZE,
+        gameState.position.x * CELL_SIZE,
+        gameState.position.y * CELL_SIZE,
         CELL_SIZE,
         CELL_SIZE,
       )
@@ -73,13 +75,15 @@ function LectureExercise({level}: LectureExerciseProps) {
     if (!canvas) return
     const context = canvas.getContext("2d")
     if (!context) return
-    draw(context, characterPos)
-  }, [characterPos, draw])
+    draw(context, currentGameState)
+  }, [currentGameState, draw])
 
   const handleRunCode = async () => {
     setError(null)
     let currentLogicalPos = {...startPosition}
-    const pathHistory: Position[] = [{...startPosition}]
+    const gameStates: GameState[] = [
+      {position: {...startPosition}, color: "blue"},
+    ]
 
     const move = (dx: number, dy: number) => {
       const newX = currentLogicalPos.x + dx
@@ -93,9 +97,9 @@ function LectureExercise({level}: LectureExerciseProps) {
         grid[newY][newX] !== "wall"
       ) {
         currentLogicalPos = {x: newX, y: newY}
-        pathHistory.push({...currentLogicalPos})
+        gameStates.push({position: {...currentLogicalPos}, color: "blue"})
       } else {
-        throw new Error("Movement blocked or out of bounds!")
+        gameStates.push({position: {...currentLogicalPos}, color: "red"})
       }
     }
 
@@ -119,10 +123,10 @@ function LectureExercise({level}: LectureExerciseProps) {
       userFunction(...Object.values(context))
 
       // Animate the recorded path
-      for (let i = 0; i < pathHistory.length; i++) {
+      for (let i = 0; i < gameStates.length; i++) {
         await new Promise<void>((resolve) => {
           setTimeout(() => {
-            setCharacterPos(pathHistory[i])
+            setCurrentGameState(gameStates[i])
             resolve()
           }, MOVE_DELAY)
         })
@@ -135,7 +139,8 @@ function LectureExercise({level}: LectureExerciseProps) {
 
   const handleReset = () => {
     setError(null)
-    setCharacterPos(startPosition)
+    setCurrentGameState({position: {...startPosition}, color: "blue"})
+    setCode(level.initialCode)
   }
 
   return (
