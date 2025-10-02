@@ -7,7 +7,7 @@ import "prismjs/components/prism-javascript"
 import "prismjs/themes/prism.css"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Editor from "react-simple-code-editor"
-import {GameState, Level} from "../types/level"
+import {GameState, Level, Position} from "../types/level"
 
 type LectureExerciseProps = {
   level: Level
@@ -85,32 +85,57 @@ function LectureExercise({level}: LectureExerciseProps) {
       {position: {...startPosition}, color: "blue"},
     ]
 
-    const move = (dx: number, dy: number) => {
+    const canMove = (dx: number, dy: number): boolean => {
       const newX = currentLogicalPos.x + dx
       const newY = currentLogicalPos.y + dy
 
-      if (
+      return (
         newX >= 0 &&
         newX < GRID_SIZE &&
         newY >= 0 &&
         newY < GRID_SIZE &&
         grid[newY][newX] !== "wall"
-      ) {
-        currentLogicalPos = {x: newX, y: newY}
+      )
+    }
+
+    const move = (dx: number, dy: number) => {
+      if (canMove(dx, dy)) {
+        currentLogicalPos = {
+          x: currentLogicalPos.x + dx,
+          y: currentLogicalPos.y + dy,
+        }
         gameStates.push({position: {...currentLogicalPos}, color: "blue"})
       } else {
         gameStates.push({position: {...currentLogicalPos}, color: "red"})
       }
     }
 
-    const availableFunctionsMap: {[key: string]: () => void} = {
+    const look = (dx: number, dy: number): boolean => {
+      const newX = currentLogicalPos.x + dx
+      const newY = currentLogicalPos.y + dy
+
+      return (
+        newX >= 0 &&
+        newX < GRID_SIZE &&
+        newY >= 0 &&
+        newY < GRID_SIZE &&
+        grid[newY][newX] !== "wall" &&
+        grid[newY][newX] !== "obstacle"
+      )
+    }
+
+    const availableFunctionsMap: {[key: string]: () => void | boolean} = {
       moveUp: () => move(0, -1),
       moveDown: () => move(0, 1),
       moveRight: () => move(1, 0),
       moveLeft: () => move(-1, 0),
+      lookUp: () => look(0, -1),
+      lookDown: () => look(0, 1),
+      lookRight: () => look(1, 0),
+      lookLeft: () => look(-1, 0),
     }
 
-    const context: {[key: string]: () => void} = {}
+    const context: {[key: string]: () => void | boolean} = {}
     level.availableFunctions.forEach((funcName) => {
       if (availableFunctionsMap[funcName]) {
         context[funcName] = availableFunctionsMap[funcName]
@@ -128,7 +153,7 @@ function LectureExercise({level}: LectureExerciseProps) {
           setTimeout(() => {
             setCurrentGameState(gameStates[i])
             resolve()
-          }, MOVE_DELAY)
+          }, MOVE_DELAY) // Corrected: fixed delay
         })
       }
     } catch (e: any) {

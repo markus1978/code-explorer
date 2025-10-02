@@ -29,7 +29,16 @@ const functionCallLevel: Level = {
     ],
     charMap,
   ),
-  availableFunctions: ["moveRight", "moveDown", "moveUp", "moveLeft"],
+  availableFunctions: [
+    "moveRight",
+    "moveDown",
+    "moveUp",
+    "moveLeft",
+    "lookUp",
+    "lookDown",
+    "lookLeft",
+    "lookRight",
+  ],
   initialCode: stripIndent`
     moveRight()
     moveDown()
