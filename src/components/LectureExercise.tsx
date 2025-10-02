@@ -7,7 +7,7 @@ import "prismjs/components/prism-javascript"
 import "prismjs/themes/prism.css"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Editor from "react-simple-code-editor"
-import {GameState, Level, Position} from "../types/level"
+import {GameState, Level} from "../types/level"
 
 type LectureExerciseProps = {
   level: Level
@@ -80,14 +80,15 @@ function LectureExercise({level}: LectureExerciseProps) {
 
   const handleRunCode = async () => {
     setError(null)
+    let callCount = 0
     let currentLogicalPos = {...startPosition}
     const gameStates: GameState[] = [
       {position: {...startPosition}, color: "blue"},
     ]
 
-    const canMove = (dx: number, dy: number): boolean => {
-      const newX = currentLogicalPos.x + dx
-      const newY = currentLogicalPos.y + dy
+    const canMove = (x: number, y: number): boolean => {
+      const newX = currentLogicalPos.x + x
+      const newY = currentLogicalPos.y + y
 
       return (
         newX >= 0 &&
@@ -98,11 +99,14 @@ function LectureExercise({level}: LectureExerciseProps) {
       )
     }
 
-    const move = (dx: number, dy: number) => {
-      if (canMove(dx, dy)) {
+    const move = (x: number, y: number) => {
+      if (callCount++ > 100) {
+        throw new Error("Zu viele Funktionsaufrufe!")
+      }
+      if (canMove(x, y)) {
         currentLogicalPos = {
-          x: currentLogicalPos.x + dx,
-          y: currentLogicalPos.y + dy,
+          x: currentLogicalPos.x + x,
+          y: currentLogicalPos.y + y,
         }
         gameStates.push({position: {...currentLogicalPos}, color: "blue"})
       } else {
@@ -110,9 +114,12 @@ function LectureExercise({level}: LectureExerciseProps) {
       }
     }
 
-    const look = (dx: number, dy: number): boolean => {
-      const newX = currentLogicalPos.x + dx
-      const newY = currentLogicalPos.y + dy
+    const look = (x: number, y: number) => {
+      if (callCount++ > 100) {
+        throw new Error("Zu viele Funktionsaufrufe!")
+      }
+      const newX = currentLogicalPos.x + x
+      const newY = currentLogicalPos.y + y
 
       return (
         newX >= 0 &&
@@ -124,23 +131,7 @@ function LectureExercise({level}: LectureExerciseProps) {
       )
     }
 
-    const availableFunctionsMap: {[key: string]: () => void | boolean} = {
-      moveUp: () => move(0, -1),
-      moveDown: () => move(0, 1),
-      moveRight: () => move(1, 0),
-      moveLeft: () => move(-1, 0),
-      lookUp: () => look(0, -1),
-      lookDown: () => look(0, 1),
-      lookRight: () => look(1, 0),
-      lookLeft: () => look(-1, 0),
-    }
-
-    const context: {[key: string]: () => void | boolean} = {}
-    level.availableFunctions.forEach((funcName) => {
-      if (availableFunctionsMap[funcName]) {
-        context[funcName] = availableFunctionsMap[funcName]
-      }
-    })
+    const context = level.availableFunctions({move, look})
 
     try {
       // eslint-disable-next-line no-new-func
@@ -153,7 +144,7 @@ function LectureExercise({level}: LectureExerciseProps) {
           setTimeout(() => {
             setCurrentGameState(gameStates[i])
             resolve()
-          }, MOVE_DELAY) // Corrected: fixed delay
+          }, MOVE_DELAY)
         })
       }
     } catch (e: any) {
@@ -165,48 +156,51 @@ function LectureExercise({level}: LectureExerciseProps) {
   const handleReset = () => {
     setError(null)
     setCurrentGameState({position: {...startPosition}, color: "blue"})
-    setCode(level.initialCode)
   }
 
   return (
-    <Stack direction="row" spacing={4}>
-      <Editor
-        value={code}
-        onValueChange={(code) => setCode(code)}
-        highlight={(code) => highlight(code, languages.js, "javascript")}
-        padding={10}
-        style={{
-          fontFamily: '"Fira code", "Fira Mono", monospace',
-          fontSize: 12,
-          backgroundColor: "#f5f5f5",
-          border: "1px solid #ddd",
-          borderRadius: "4px",
-          width: "100%",
-        }}
-      />
-      <Stack spacing={1}>
-        <Sheet sx={{height: "100%"}}>
-          <canvas
-            ref={canvasRef}
-            width={GRID_SIZE * CELL_SIZE}
-            height={GRID_SIZE * CELL_SIZE}
-            style={{border: "1px solid #ddd"}}
-          />
-        </Sheet>
-        <Stack direction="row" spacing={1}>
-          <Button onClick={handleRunCode} sx={{mt: 1}}>
-            Code ausführen
-          </Button>
-          <Button onClick={handleReset} sx={{mt: 1, ml: 1}}>
-            Zurücksetzen
-          </Button>
+    <Stack spacing={2} sx={{width: "100%"}}>
+      <Stack direction="row" spacing={4}>
+        <Editor
+          value={code}
+          onValueChange={(code) => setCode(code)}
+          highlight={(code) => highlight(code, languages.js, "javascript")}
+          padding={10}
+          style={{
+            fontFamily: '"Fira code", "Fira Mono", monospace',
+            fontSize: 12,
+            backgroundColor: "#f5f5f5",
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            width: "100%",
+          }}
+        />
+        <Stack spacing={1}>
+          <Sheet sx={{height: "100%"}}>
+            <canvas
+              ref={canvasRef}
+              width={GRID_SIZE * CELL_SIZE}
+              height={GRID_SIZE * CELL_SIZE}
+              style={{border: "1px solid #ddd"}}
+            />
+          </Sheet>
+          <Stack direction="row" spacing={1}>
+            <Button onClick={handleRunCode} sx={{mt: 1}}>
+              Code ausführen
+            </Button>
+            <Button onClick={handleReset} sx={{mt: 1, ml: 1}}>
+              Zurücksetzen
+            </Button>
+          </Stack>
         </Stack>
-        {error && (
-          <Typography color="danger" sx={{mt: 1}}>
-            {error}
-          </Typography>
-        )}
       </Stack>
+      {error && (
+        <Typography color="danger" sx={{mt: 1}}>
+          Du hast leider einen Fehler in deinem Code:
+          <br />
+          <i>{error}</i>
+        </Typography>
+      )}
     </Stack>
   )
 }

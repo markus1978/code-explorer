@@ -48,7 +48,7 @@ function LectureLayout({children}: LectureLayoutProps) {
         </List>
       </Sheet>
 
-      <Stack sx={{flexGrow: 1, p: 2}}>
+      <Stack sx={{flexGrow: 1, p: 2, marginLeft: "0 !important"}}>
         {children}
 
         <Stack

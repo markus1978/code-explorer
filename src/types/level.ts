@@ -7,10 +7,15 @@ export type GameState = {
   // Add more state properties here as needed (e.g., direction, inventory)
 }
 
+export type Character = {
+  move: (x: number, y: number) => void
+  look: (x: number, y: number) => boolean
+}
+
 export type Level = {
   grid: GridCellType[][]
   startPosition: Position
   goalPosition: Position
-  availableFunctions: string[]
+  availableFunctions: (character: Character) => {[key: string]: () => void}
   initialCode: string
 }

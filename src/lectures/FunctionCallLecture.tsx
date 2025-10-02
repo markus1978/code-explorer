@@ -2,7 +2,7 @@ import Lecture from "../components/Lecture"
 import LectureExercise from "../components/LectureExercise"
 import LectureText from "../components/LectureText"
 import LectureTitle from "../components/LectureTitle"
-import {GridCellType, Level} from "../types/level"
+import {Character, GridCellType, Level} from "../types/level" // New import
 import {parseGrid} from "../utils/levelParser"
 import {stripIndent} from "../utils/string"
 
@@ -29,16 +29,12 @@ const functionCallLevel: Level = {
     ],
     charMap,
   ),
-  availableFunctions: [
-    "moveRight",
-    "moveDown",
-    "moveUp",
-    "moveLeft",
-    "lookUp",
-    "lookDown",
-    "lookLeft",
-    "lookRight",
-  ],
+  availableFunctions: ({move, look}: Character) => ({
+    moveUp: () => move(0, -1),
+    moveDown: () => move(0, 1),
+    moveRight: () => move(1, 0),
+    moveLeft: () => move(-1, 0),
+  }),
   initialCode: stripIndent`
     moveRight()
     moveDown()
