@@ -15,7 +15,8 @@ export type Character = {
 export type Level = {
   grid: GridCellType[][]
   startPosition: Position
-  goalPosition: Position
-  availableFunctions: (character: Character) => {[key: string]: () => void}
+  availableFunctions: (character: Character) => {
+    [key: string]: (...args: any[]) => any
+  }
   initialCode: string
 }

@@ -15,14 +15,14 @@ const charMap: {[key: string]: GridCellType} = {
   G: "goal",
 }
 
-const functionCallLevel: Level = {
+const level: Level = {
   ...parseGrid(
     [
       "S.........",
       "..........",
-      "...G......",
       "..........",
       "..........",
+      "........G.",
       "..........",
       "..........",
       "..........",
@@ -36,29 +36,29 @@ const functionCallLevel: Level = {
     moveRight: () => character.move(1, 0),
   }),
   initialCode: stripIndent`
-    moveRight()
-    moveDown()
+    for (let i = 0; i < 4; i++) {
+      moveRight()
+    }
   `,
 }
 
-function FunctionCallLecture() {
+function ForLoopsLecture() {
   return (
     <Lecture>
-      <LectureTitle>Lektion 1: Funktionen rufen</LectureTitle>
+      <LectureTitle>Lektion 3: For-Schleifen</LectureTitle>
       <LectureText
         markdownContent={stripIndent`
-          Willkommen zu deinem ersten Programmierabenteuer! In dieser Lektion
-          lernen wir was **Funktionen** sind und wie wir sie **rufen** können.
+          Manchmal möchtest du, dass der Computer die gleiche Sache immer und immer wieder tut. Wäre es nicht mühsam, \`moveRight()\` vier Mal hintereinander zu schreiben? Genau hierfür gibt es **Schleifen**!
 
-          Funktionen sind wie kleine Maschinen, die eine bestimmte Aufgabe
-          erledigen. Wenn du \`moveRight()\` schreibst, sagst du dem Computer, dass
-          er die Figur nach rechts bewegen soll. Genauso funktioniert
-          \`moveDown()\`.
+          Eine \`for\`-Schleife ist eine Möglichkeit, dem Computer zu sagen, dass er einen Codeblock mehrmals ausführen soll. Schau dir das Beispiel an:
 
-          Ein in Funktionsruf besteht aus dem Funktionsnamen gefolgt
-          von Klammern. Die Klammern zeigen an, dass du die Funktion ausführst.
+          \`\`\`javascript
+          for (let i = 0; i < 4; i++) {
+            moveRight()
+          }
+          \`\`\`
 
-          Die folgenden Funktionen stehen dir in diesem Level zur Verfügung:
+          Das ist wie zu sagen: "Computer, zähle von 0 bis 3 (insgesamt 4 Mal), und bei jeder Zählung, bewege die Figur nach rechts."
         `}
       />
       <LectureFunctions>
@@ -77,14 +77,12 @@ function FunctionCallLecture() {
       </LectureFunctions>
       <LectureText
         markdownContent={stripIndent`
-          Versuche, die Figur zum Ziel (grüner Punkt) zu bewegen, indem du die
-          Funktionen \`moveRight()\` und \`moveDown()\` aufrufst. Ein paar Rufe haben
-          wir dir schon vorgegeben.
+          Benutze eine \`for\`-Schleife, um die Figur zum Ziel zu bewegen. Du wirst zwei Schleifen brauchen: eine für die Bewegung nach rechts und eine für die Bewegung nach unten.
         `}
       />
-      <LectureExercise level={functionCallLevel} />
+      <LectureExercise level={level} />
     </Lecture>
   )
 }
 
-export default FunctionCallLecture
+export default ForLoopsLecture

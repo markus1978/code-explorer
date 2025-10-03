@@ -1,7 +1,8 @@
 import {LectureMeta} from "../types/lecture"
 import FunctionCallLecture from "./FunctionCallLecture"
-import PlaceholderLecture2 from "./PlaceholderLecture2" // New import
-import PlaceholderLecture3 from "./PlaceholderLecture3" // New import
+import FunctionCallWithArgumentsLecture from "./FunctionCallWithArgumentsLecture"
+import ForLoopsLecture from "./ForLoopsLecture"
+import NestedForLoopsLecture from "./NestedForLoopsLecture"
 
 export const toc: LectureMeta[] = [
   {
@@ -12,14 +13,20 @@ export const toc: LectureMeta[] = [
   },
   {
     id: 2,
-    title: "Lektion 2: Platzhalter",
-    description: "Dies ist die zweite Platzhalter-Lektion.",
-    component: PlaceholderLecture2,
+    title: "Lektion 2: Funktionen mit Argumenten",
+    description: "Lerne, wie man Funktionen Argumente übergibt.",
+    component: FunctionCallWithArgumentsLecture,
   },
   {
     id: 3,
-    title: "Lektion 3: Noch ein Platzhalter",
-    description: "Dies ist die dritte Platzhalter-Lektion.",
-    component: PlaceholderLecture3,
+    title: "Lektion 3: For-Schleifen",
+    description: "Lerne, wie man Code mit For-Schleifen wiederholt.",
+    component: ForLoopsLecture,
+  },
+  {
+    id: 4,
+    title: "Lektion 4: Verschachtelte For-Schleifen",
+    description: "Lerne, wie man For-Schleifen ineinander verschachtelt.",
+    component: NestedForLoopsLecture,
   },
 ]

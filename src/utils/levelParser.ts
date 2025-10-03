@@ -3,9 +3,8 @@ import {GridCellType, Position} from "../types/level"
 export function parseGrid(
   shorthandGrid: string[],
   charMap: {[key: string]: GridCellType},
-): {grid: GridCellType[][]; startPosition: Position; goalPosition: Position} {
+): {grid: GridCellType[][]; startPosition: Position} {
   let startPosition: Position | null = null
-  let goalPosition: Position | null = null
   const grid: GridCellType[][] = shorthandGrid.map((rowString, y) =>
     rowString.split("").map((char, x) => {
       const cellType = charMap[char]
@@ -19,10 +18,6 @@ export function parseGrid(
         startPosition = {x, y}
         return "empty"
       }
-      if (cellType === "goal") {
-        goalPosition = {x, y}
-        return "empty"
-      }
       return cellType
     }),
   )
@@ -30,9 +25,6 @@ export function parseGrid(
   if (!startPosition) {
     throw new Error("Start position not found in grid.")
   }
-  if (!goalPosition) {
-    throw new Error("Goal position not found in grid.")
-  }
 
-  return {grid, startPosition, goalPosition}
+  return {grid, startPosition}
 }

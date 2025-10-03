@@ -24,7 +24,7 @@ function LectureExercise({level}: LectureExerciseProps) {
   })
 
   // Parse the grid once when the component mounts or level changes
-  const {grid, startPosition, goalPosition} = level
+  const {grid, startPosition} = level
 
   const GRID_SIZE = grid.length
   const CELL_SIZE = 40
@@ -42,21 +42,20 @@ function LectureExercise({level}: LectureExerciseProps) {
           if (grid[y][x] === "wall") {
             context.fillStyle = "#555"
             context.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+          } else if (grid[y][x] === "goal") {
+            context.fillStyle = "green"
+            context.beginPath()
+            context.arc(
+              x * CELL_SIZE + CELL_SIZE / 2,
+              y * CELL_SIZE + CELL_SIZE / 2,
+              CELL_SIZE / 3,
+              0,
+              2 * Math.PI,
+            )
+            context.fill()
           }
         }
       }
-
-      // Draw goal
-      context.fillStyle = "green"
-      context.beginPath()
-      context.arc(
-        goalPosition.x * CELL_SIZE + CELL_SIZE / 2,
-        goalPosition.y * CELL_SIZE + CELL_SIZE / 2,
-        CELL_SIZE / 3,
-        0,
-        2 * Math.PI,
-      )
-      context.fill()
 
       // Draw character
       context.fillStyle = gameState.color
@@ -67,7 +66,7 @@ function LectureExercise({level}: LectureExerciseProps) {
         CELL_SIZE,
       )
     },
-    [goalPosition, grid, GRID_SIZE],
+    [grid, GRID_SIZE],
   )
 
   useEffect(() => {
