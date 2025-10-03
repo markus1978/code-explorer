@@ -4,9 +4,10 @@
   background-color: #f0f0f0; /* Light grey background */
   padding: 0.2em 0.4em;
   border-radius: 3px;
-  font-family: "Fira code", "Fira Mono", monospace;
-  font-size: 0.9em;
+  font-family: "Fira code", "Fira Mono", monospace; /* Consistent font */
+  font-size: 14px; /* Consistent font size */
   color: #c7254e; /* Darker color for better contrast */
+  vertical-align: 1px; /* Adjust baseline */
 }
 
 .markdown-body pre {
@@ -14,12 +15,15 @@
   padding: 1em;
   border-radius: 5px;
   overflow-x: auto;
+  font-family: "Fira code", "Fira Mono", monospace; /* Consistent font */
+  font-size: 14px; /* Consistent font size */
 }
 
 .markdown-body pre code {
   background-color: transparent; /* Don't double-style code blocks */
   padding: 0;
   color: inherit;
+  font-size: 14px; /* Ensure consistency */
 }
 
 .markdown-body h1,
@@ -33,4 +37,5 @@
 .markdown-body p {
   line-height: 1.6;
   margin-bottom: 1em;
+  font-size: 1rem; /* Standard paragraph font size */
 }

@@ -168,7 +168,7 @@ function LectureExercise({level}: LectureExerciseProps) {
           padding={10}
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',
-            fontSize: 12,
+            fontSize: 14,
             backgroundColor: "#f5f5f5",
             border: "1px solid #ddd",
             borderRadius: "4px",
