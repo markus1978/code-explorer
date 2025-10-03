@@ -1,8 +1,8 @@
 import {LectureMeta} from "../types/lecture"
-import FunctionCallLecture from "./FunctionCallLecture"
-import FunctionCallWithArgumentsLecture from "./FunctionCallWithArgumentsLecture"
-import ForLoopsLecture from "./ForLoopsLecture"
-import NestedForLoopsLecture from "./NestedForLoopsLecture"
+import FunctionCallLecture from "./01FunctionCallLecture"
+import FunctionCallWithArgumentsLecture from "./02FunctionCallWithArgumentsLecture"
+import ForLoopsLecture from "./03ForLoopsLecture"
+import NestedForLoopsLecture from "./04NestedForLoopsLecture"
 
 export const toc: LectureMeta[] = [
   {

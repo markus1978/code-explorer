@@ -54,7 +54,7 @@ function LectureLayout({children}: LectureLayoutProps) {
         <Stack
           direction="row"
           justifyContent="space-between"
-          sx={{mt: "auto", pt: 2, borderTop: "1px solid #ddd"}}
+          sx={{mt: "auto", py: 2, borderTop: "1px solid #ddd"}}
         >
           <Button onClick={handlePrevious} disabled={currentLectureIndex === 0}>
             Zurück
