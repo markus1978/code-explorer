@@ -4,6 +4,7 @@ import FunctionCallWithArgumentsLecture from "./02FunctionArguments"
 import ForLoopsLecture from "./03ForLoops"
 import NestedForLoopsLecture from "./04NestedForLoops"
 import IfConditions from "./05IfConditions"
+import LoopsWithConditions from "./06LoopsWithConditions"
 
 export const toc: LectureMeta[] = [
   {
@@ -35,5 +36,11 @@ export const toc: LectureMeta[] = [
     title: "Lektion 5: If-Bedingungen",
     description: "Lerne, wie man mit If-Bedingungen Entscheidungen trifft.",
     component: IfConditions,
+  },
+  {
+    id: 6,
+    title: "Lektion 6: Schleifen mit Bedingungen",
+    description: "Lerne, wie man Schleifen mit Bedingungen steuert.",
+    component: LoopsWithConditions,
   },
 ]
