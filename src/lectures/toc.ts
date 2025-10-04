@@ -5,6 +5,8 @@ import ForLoopsLecture from "./03ForLoops"
 import NestedForLoopsLecture from "./04NestedForLoops"
 import IfConditions from "./05IfConditions"
 import LoopsWithConditions from "./06LoopsWithConditions"
+import DefiningFunctions from "./07DefiningFunctions"
+import DefiningFunctionArgs from "./08DefiningFunctionArgs"
 
 export const toc: LectureMeta[] = [
   {
@@ -42,5 +44,17 @@ export const toc: LectureMeta[] = [
     title: "Lektion 6: Schleifen mit Bedingungen",
     description: "Lerne, wie man Schleifen mit Bedingungen steuert.",
     component: LoopsWithConditions,
+  },
+  {
+    id: 7,
+    title: "Lektion 7: Eigene Funktionen definieren",
+    description: "Lerne, wie du deine eigenen Funktionen schreibst.",
+    component: DefiningFunctions,
+  },
+  {
+    id: 8,
+    title: "Lektion 8: Funktionen mit Argumenten",
+    description: "Lerne, wie man Funktionen mit Argumenten definiert.",
+    component: DefiningFunctionArgs,
   },
 ]

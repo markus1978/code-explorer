@@ -87,8 +87,8 @@ function LectureExercise({level}: LectureExerciseProps) {
     ]
 
     const canMove = (x: number, y: number): boolean => {
-      const newX = currentLogicalPos.x + x
-      const newY = currentLogicalPos.y + y
+      const newX = currentLogicalPos.x + Math.sign(x)
+      const newY = currentLogicalPos.y + Math.sign(y)
 
       return (
         newX >= 0 &&
@@ -105,8 +105,8 @@ function LectureExercise({level}: LectureExerciseProps) {
       }
       if (canMove(x, y)) {
         currentLogicalPos = {
-          x: currentLogicalPos.x + x,
-          y: currentLogicalPos.y + y,
+          x: currentLogicalPos.x + Math.sign(x),
+          y: currentLogicalPos.y + Math.sign(y),
         }
         gameStates.push({position: {...currentLogicalPos}, color: "blue"})
       } else {
@@ -115,11 +115,11 @@ function LectureExercise({level}: LectureExerciseProps) {
     }
 
     const look = (x: number, y: number) => {
-      if (callCount++ > 100) {
+      if (callCount++ > 500) {
         throw new Error("Zu viele Funktionsaufrufe!")
       }
-      const newX = currentLogicalPos.x + x
-      const newY = currentLogicalPos.y + y
+      const newX = currentLogicalPos.x + Math.sign(x)
+      const newY = currentLogicalPos.y + Math.sign(y)
 
       return (
         newX >= 0 &&
