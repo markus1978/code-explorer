@@ -1,9 +1,16 @@
 import {GridCellType, Position} from "../types/level"
 
-export function parseGrid(
-  shorthandGrid: string[],
-  charMap: {[key: string]: GridCellType},
-): {grid: GridCellType[][]; startPosition: Position} {
+const charMap: {[key: string]: GridCellType} = {
+  ".": "empty",
+  "#": "wall",
+  S: "start",
+  G: "goal",
+}
+
+export function parseGrid(shorthandGrid: string[]): {
+  grid: GridCellType[][]
+  startPosition: Position
+} {
   let startPosition: Position | null = null
   const grid: GridCellType[][] = shorthandGrid.map((rowString, y) =>
     rowString.split("").map((char, x) => {

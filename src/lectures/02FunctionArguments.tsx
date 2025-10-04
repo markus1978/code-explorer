@@ -4,44 +4,11 @@ import LectureFunction from "../components/LectureFunction"
 import LectureFunctions from "../components/LectureFunctions"
 import LectureText from "../components/LectureText"
 import LectureTitle from "../components/LectureTitle"
-import {Character, GridCellType, Level} from "../types/level"
+import {Character} from "../types/level"
 import {parseGrid} from "../utils/levelParser"
 import {stripIndent} from "../utils/string"
 
-const charMap: {[key: string]: GridCellType} = {
-  ".": "empty",
-  "#": "wall",
-  S: "start",
-  G: "goal",
-}
-
-const level: Level = {
-  ...parseGrid(
-    [
-      "S.........",
-      "..........",
-      "..........",
-      "..........",
-      ".......G..",
-      "..........",
-      "...G......",
-      "..........",
-      "..........",
-      ".........G",
-    ],
-    charMap,
-  ),
-  availableFunctions: (character: Character) => ({
-    moveDown: (steps: number) => character.move(0, steps),
-    moveRight: (steps: number) => character.move(steps, 0),
-    moveLeft: (steps: number) => character.move(-steps, 0),
-  }),
-  initialCode: stripIndent`
-    moveRight(4)
-  `,
-}
-
-function FunctionCallWithArgumentsLecture() {
+export default function FunctionArguments() {
   return (
     <Lecture>
       <LectureTitle>Lektion 2: Funktionen mit Argumenten</LectureTitle>
@@ -81,9 +48,30 @@ function FunctionCallWithArgumentsLecture() {
           Versuche, die Figur über die Ziele (grüne Punkte) zu bewegen.
         `}
       />
-      <LectureExercise level={level} />
+      <LectureExercise
+        level={{
+          ...parseGrid([
+            "S.........",
+            "..........",
+            "..........",
+            "..........",
+            ".......G..",
+            "..........",
+            "...G......",
+            "..........",
+            "..........",
+            ".........G",
+          ]),
+          availableFunctions: (character: Character) => ({
+            moveDown: (steps: number) => character.move(0, steps),
+            moveRight: (steps: number) => character.move(steps, 0),
+            moveLeft: (steps: number) => character.move(-steps, 0),
+          }),
+          initialCode: stripIndent`
+            moveRight(4)
+          `,
+        }}
+      />
     </Lecture>
   )
 }
-
-export default FunctionCallWithArgumentsLecture

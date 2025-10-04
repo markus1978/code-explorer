@@ -26,9 +26,10 @@ function LectureExercise({level}: LectureExerciseProps) {
   // Parse the grid once when the component mounts or level changes
   const {grid, startPosition} = level
 
-  const GRID_SIZE = grid.length
-  const CELL_SIZE = 40
-  const MOVE_DELAY = 200 // ms
+  const gridHeight = grid.length
+  const gridWidth = grid[0].length
+  const cellSize = 40
+  const moveDelay = 200 // ms
 
   const draw = useCallback(
     (context: CanvasRenderingContext2D, gameState: GameState) => {
@@ -36,19 +37,19 @@ function LectureExercise({level}: LectureExerciseProps) {
       context.fillRect(0, 0, context.canvas.width, context.canvas.height)
 
       // Draw grid and obstacles
-      for (let y = 0; y < GRID_SIZE; y++) {
-        for (let x = 0; x < GRID_SIZE; x++) {
-          context.strokeRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+      for (let y = 0; y < gridHeight; y++) {
+        for (let x = 0; x < gridWidth; x++) {
+          context.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize)
           if (grid[y][x] === "wall") {
             context.fillStyle = "#555"
-            context.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize)
           } else if (grid[y][x] === "goal") {
             context.fillStyle = "green"
             context.beginPath()
             context.arc(
-              x * CELL_SIZE + CELL_SIZE / 2,
-              y * CELL_SIZE + CELL_SIZE / 2,
-              CELL_SIZE / 3,
+              x * cellSize + cellSize / 2,
+              y * cellSize + cellSize / 2,
+              cellSize / 3,
               0,
               2 * Math.PI,
             )
@@ -60,13 +61,13 @@ function LectureExercise({level}: LectureExerciseProps) {
       // Draw character
       context.fillStyle = gameState.color
       context.fillRect(
-        gameState.position.x * CELL_SIZE,
-        gameState.position.y * CELL_SIZE,
-        CELL_SIZE,
-        CELL_SIZE,
+        gameState.position.x * cellSize,
+        gameState.position.y * cellSize,
+        cellSize,
+        cellSize,
       )
     },
-    [grid, GRID_SIZE],
+    [grid],
   )
 
   useEffect(() => {
@@ -91,9 +92,9 @@ function LectureExercise({level}: LectureExerciseProps) {
 
       return (
         newX >= 0 &&
-        newX < GRID_SIZE &&
+        newX < gridWidth &&
         newY >= 0 &&
-        newY < GRID_SIZE &&
+        newY < gridHeight &&
         grid[newY][newX] !== "wall"
       )
     }
@@ -122,9 +123,9 @@ function LectureExercise({level}: LectureExerciseProps) {
 
       return (
         newX >= 0 &&
-        newX < GRID_SIZE &&
+        newX < gridWidth &&
         newY >= 0 &&
-        newY < GRID_SIZE &&
+        newY < gridHeight &&
         grid[newY][newX] !== "wall" &&
         grid[newY][newX] !== "obstacle"
       )
@@ -143,7 +144,7 @@ function LectureExercise({level}: LectureExerciseProps) {
           setTimeout(() => {
             setCurrentGameState(gameStates[i])
             resolve()
-          }, MOVE_DELAY)
+          }, moveDelay)
         })
       }
     } catch (e: any) {
@@ -178,8 +179,8 @@ function LectureExercise({level}: LectureExerciseProps) {
           <Sheet sx={{height: "100%"}}>
             <canvas
               ref={canvasRef}
-              width={GRID_SIZE * CELL_SIZE}
-              height={GRID_SIZE * CELL_SIZE}
+              width={gridWidth * cellSize}
+              height={gridHeight * cellSize}
               style={{border: "1px solid #ddd"}}
             />
           </Sheet>

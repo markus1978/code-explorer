@@ -1,15 +1,16 @@
 import {LectureMeta} from "../types/lecture"
-import FunctionCallLecture from "./01FunctionCallLecture"
-import FunctionCallWithArgumentsLecture from "./02FunctionCallWithArgumentsLecture"
-import ForLoopsLecture from "./03ForLoopsLecture"
-import NestedForLoopsLecture from "./04NestedForLoopsLecture"
+import FunctionCall from "./01FunctionCall"
+import FunctionCallWithArgumentsLecture from "./02FunctionArguments"
+import ForLoopsLecture from "./03ForLoops"
+import NestedForLoopsLecture from "./04NestedForLoops"
+import IfConditions from "./05IfConditions"
 
 export const toc: LectureMeta[] = [
   {
     id: 1,
     title: "Lektion 1: Funktionen rufen",
     description: "Lerne, wie man Funktionen aufruft, um die Figur zu bewegen.",
-    component: FunctionCallLecture,
+    component: FunctionCall,
   },
   {
     id: 2,
@@ -28,5 +29,11 @@ export const toc: LectureMeta[] = [
     title: "Lektion 4: Verschachtelte For-Schleifen",
     description: "Lerne, wie man For-Schleifen ineinander verschachtelt.",
     component: NestedForLoopsLecture,
+  },
+  {
+    id: 5,
+    title: "Lektion 5: If-Bedingungen",
+    description: "Lerne, wie man mit If-Bedingungen Entscheidungen trifft.",
+    component: IfConditions,
   },
 ]

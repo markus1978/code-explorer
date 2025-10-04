@@ -4,18 +4,11 @@ import LectureFunction from "../components/LectureFunction"
 import LectureFunctions from "../components/LectureFunctions"
 import LectureText from "../components/LectureText"
 import LectureTitle from "../components/LectureTitle"
-import {Character, GridCellType} from "../types/level"
+import {Character} from "../types/level"
 import {parseGrid} from "../utils/levelParser"
 import {stripIndent} from "../utils/string"
 
-const charMap: {[key: string]: GridCellType} = {
-  ".": "empty",
-  "#": "wall",
-  S: "start",
-  G: "goal",
-}
-
-function NestedForLoopsLecture() {
+export default function NestedForLoops() {
   return (
     <Lecture>
       <LectureTitle>Lektion 4: Verschachtelte For-Schleifen</LectureTitle>
@@ -60,26 +53,24 @@ function NestedForLoopsLecture() {
       />
       <LectureExercise
         level={{
-          ...parseGrid(
-            [
-              "S...####..",
-              "###....###",
-              "..####....",
-              ".....####G",
-              "..........",
-              "..........",
-              "..........",
-              "..........",
-              "..........",
-              "..........",
-            ],
-            charMap,
-          ),
+          ...parseGrid([
+            "S...####..",
+            "###....###",
+            "..####....",
+            ".....####G",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+          ]),
           availableFunctions: (character: Character) => ({
             moveDown: () => character.move(0, 1),
             moveRight: () => character.move(1, 0),
           }),
           initialCode: stripIndent`
+            // Korrigiere die Zahlen in den Schleifen, um zum Ziel zu gelangen
             for (let i = 0; i < 5; i++) {
               for (let j = 0; j < 5; j++) {
                 moveRight()
@@ -96,31 +87,27 @@ function NestedForLoopsLecture() {
       />
       <LectureExercise
         level={{
-          ...parseGrid(
-            [
-              "S#........",
-              ".#........",
-              ".###......",
-              "...#......",
-              "##.#......",
-              ".#.###....",
-              ".#...#....",
-              ".###.#....",
-              "...#.###..",
-              "...#..G#..",
-            ],
-            charMap,
-          ),
+          ...parseGrid([
+            "S#........",
+            ".#........",
+            ".###......",
+            "...#......",
+            "##.#......",
+            ".#.###....",
+            ".#...#....",
+            ".###.#....",
+            "...#.###..",
+            "...#..G#..",
+          ]),
           availableFunctions: (character: Character) => ({
             moveDown: () => character.move(0, 1),
             moveRight: () => character.move(1, 0),
           }),
           initialCode: stripIndent`
+            // Jetzt mit zwei inneren Schleifen experimentieren
           `,
         }}
       />
     </Lecture>
   )
 }
-
-export default NestedForLoopsLecture

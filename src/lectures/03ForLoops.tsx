@@ -4,45 +4,11 @@ import LectureFunction from "../components/LectureFunction"
 import LectureFunctions from "../components/LectureFunctions"
 import LectureText from "../components/LectureText"
 import LectureTitle from "../components/LectureTitle"
-import {Character, GridCellType, Level} from "../types/level"
+import {Character} from "../types/level"
 import {parseGrid} from "../utils/levelParser"
 import {stripIndent} from "../utils/string"
 
-const charMap: {[key: string]: GridCellType} = {
-  ".": "empty",
-  "#": "wall",
-  S: "start",
-  G: "goal",
-}
-
-const level: Level = {
-  ...parseGrid(
-    [
-      "S.........",
-      "..........",
-      "..........",
-      "..........",
-      "........G.",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-    ],
-    charMap,
-  ),
-  availableFunctions: (character: Character) => ({
-    moveDown: () => character.move(0, 1),
-    moveRight: () => character.move(1, 0),
-  }),
-  initialCode: stripIndent`
-    for (let i = 0; i < 4; i++) {
-      moveRight()
-    }
-  `,
-}
-
-function ForLoopsLecture() {
+export default function ForLoops() {
   return (
     <Lecture>
       <LectureTitle>Lektion 3: For-Schleifen</LectureTitle>
@@ -80,9 +46,31 @@ function ForLoopsLecture() {
           Benutze eine \`for\`-Schleife, um die Figur zum Ziel zu bewegen. Du wirst zwei Schleifen brauchen: eine für die Bewegung nach rechts und eine für die Bewegung nach unten.
         `}
       />
-      <LectureExercise level={level} />
+      <LectureExercise
+        level={{
+          ...parseGrid([
+            "S.........",
+            "..........",
+            "..........",
+            "..........",
+            "........G.",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+          ]),
+          availableFunctions: (character: Character) => ({
+            moveDown: () => character.move(0, 1),
+            moveRight: () => character.move(1, 0),
+          }),
+          initialCode: stripIndent`
+            for (let i = 0; i < 4; i++) {
+              moveRight()
+            }
+          `,
+        }}
+      />
     </Lecture>
   )
 }
-
-export default ForLoopsLecture

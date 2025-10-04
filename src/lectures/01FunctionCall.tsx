@@ -4,44 +4,11 @@ import LectureFunction from "../components/LectureFunction"
 import LectureFunctions from "../components/LectureFunctions"
 import LectureText from "../components/LectureText"
 import LectureTitle from "../components/LectureTitle"
-import {Character, GridCellType, Level} from "../types/level"
+import {Character} from "../types/level"
 import {parseGrid} from "../utils/levelParser"
 import {stripIndent} from "../utils/string"
 
-const charMap: {[key: string]: GridCellType} = {
-  ".": "empty",
-  "#": "wall",
-  S: "start",
-  G: "goal",
-}
-
-const functionCallLevel: Level = {
-  ...parseGrid(
-    [
-      "S.........",
-      "..........",
-      "...G......",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-      "..........",
-    ],
-    charMap,
-  ),
-  availableFunctions: (character: Character) => ({
-    moveDown: () => character.move(0, 1),
-    moveRight: () => character.move(1, 0),
-  }),
-  initialCode: stripIndent`
-    moveRight()
-    moveDown()
-  `,
-}
-
-function FunctionCallLecture() {
+export default function FunctionCall() {
   return (
     <Lecture>
       <LectureTitle>Lektion 1: Funktionen rufen</LectureTitle>
@@ -82,9 +49,30 @@ function FunctionCallLecture() {
           wir dir schon vorgegeben.
         `}
       />
-      <LectureExercise level={functionCallLevel} />
+      <LectureExercise
+        level={{
+          ...parseGrid([
+            "S.........",
+            "..........",
+            "...G......",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+            "..........",
+          ]),
+          availableFunctions: (character: Character) => ({
+            moveDown: () => character.move(0, 1),
+            moveRight: () => character.move(1, 0),
+          }),
+          initialCode: stripIndent`
+            moveRight()
+            moveDown()
+          `,
+        }}
+      />
     </Lecture>
   )
 }
-
-export default FunctionCallLecture
